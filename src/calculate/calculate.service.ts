@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { SetNumberDto } from './dto/set-number.dto';
+import { Calculation } from './interface/calculation.interface';
 
 @Injectable()
 export class CalculateService {
-  //Es par
   evenNumber(n: number): boolean {
     return n % 2 === 0;
   }
 
-  //Es primo
   primeNumber(n: number): boolean {
     for (let aux = 2; aux < n; aux++) {
       if (n % aux === 0) return false;
@@ -49,21 +49,23 @@ export class CalculateService {
     return arr;
   }
 
-  runCalculations(n: number) {
-    const isPar = this.evenNumber(n);
+  runCalculations(n: number): Calculation {
+    const isPair = this.evenNumber(n);
     const isPrime = this.primeNumber(n);
-    const nFactorial = this.factorial(n);
-    const addition = this.addIntegers(n);
-    const nFactors = this.factors(n);
-    const nFibonacci = this.fibonacciSerie(n);
-    return {
-      msg: `El numero es: ${n}`,
-      isPar,
+    const factorial = this.factorial(n);
+    const sumN = this.addIntegers(n);
+    const factors = this.factors(n);
+    const fibonacci = this.fibonacciSerie(n);
+
+    const resCal: Calculation = {
+      factorial,
+      factors,
+      fibonacci,
+      isPair,
       isPrime,
-      nFactorial,
-      addition,
-      nFactors,
-      nFibonacci,
+      sumN,
     };
+
+    return resCal;
   }
 }
